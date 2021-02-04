@@ -1,11 +1,9 @@
 import React from "react";
-import {sortedArray} from "../App"
 
 const Header = (props) => {
     const formatData = dati => {
         if (dati.length > 0) {
-            let sorted = sortedArray(dati)
-            let lastUpdated = sorted[0].data
+            let lastUpdated = dati.slice(-1)[0].data
             let lastUpdatedFormatted = lastUpdated
                 .split("T")[0]
                 .split("-")

@@ -1,18 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import StartCard from "./componets/StartCard"
-
+import StartCard from "./componets/StartCard"  
 import Header from "./componets/Header";
-
-//array al contrario
-export const sortedArray = (dati) => {
-  let sorted = [...dati].reverse()
-  return sorted
-}
-
-//formatto i dati per una maggiore chiarezza
-export const formatNumber = (num) => new Intl.NumberFormat('it-IT').format(num)
-
 
 function App() {
   const [dati, setDati] = useState([]);
@@ -36,3 +25,8 @@ function App() {
 }
 
 export default App;
+
+//array al contrario
+export const sortedArray = (dati) => [...dati].reverse()
+//formatto i dati per una maggiore chiarezza
+export const formatNumber = (num) => new Intl.NumberFormat('it-IT').format(num)
