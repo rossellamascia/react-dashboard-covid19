@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { lastUpdated } from "../App"
+import { lastUpdated } from "./utility";
+
 
 const RegionPositive = (props) => {
     const [dati , setDati] = useState(props.dati)
@@ -18,7 +19,6 @@ const RegionPositive = (props) => {
             <div className="row ">
                 <div className="col-12 col-md-12 bg-secondary rounded-3">
                     <div id="cardWrapper" className="row p-3 justify-content-center">
-                        {console.log(cardRegion(dati))}
                         <div className="col-12 col-md-3 my-4">
                             <div className="card-custom h-100 rounded-3 d-flex flex-column" data-region="{el.denominazione_regione}">
                                 <p className="mb-0 ms-3 mt-3"></p>
