@@ -22,14 +22,45 @@ export const lastUpdated = (dati) => {
 
 function App() {
   const [dati, setDati] = useState([]);
+  
+  // per aumentare i campi che vuoi renderizzare, basta aumentare numero
+  // di stringhe dentro array ( chiaramente attinenti all'endpoint dell'api )
 
-  useEffect(() => {
-    const getDati = async () => {
-      const response = await fetch('https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-regioni.json');
-      const jsResponse = await response.json();
-      setDati(jsResponse);
+  const dataTrend = ["totale_casi","dimessi_guariti","deceduti","nuovi_positivi"]
+ 
+  //copiato  da StartCard  , viene eseguito dentro Classe APP nel .map di dataTrend
+  
+  const totalCases = (dati, trend) => {
+    if (dati.length > 0) {
+        switch (trend) {
+            case "totale_casi":
+                let totalCases = lastUpdated(dati).map(el => el.totale_casi).reduce((t, n) => t + n);
+                return formatNumber(totalCases);
+                break;
+            case "dimessi_guariti":
+                let totalRecovered = lastUpdated(dati).map(el => el.dimessi_guariti).reduce((t, n) => t + n)
+                return formatNumber(totalRecovered);
+            case "deceduti":
+                let totalDeath = lastUpdated(dati).map(el => el.deceduti).reduce((t, n) => t + n)
+                return formatNumber(totalDeath);
+            case "nuovi_positivi":
+                let totalPositive = lastUpdated(dati).map(el => el.nuovi_positivi).reduce((t, n) => t + n)
+                return formatNumber(totalPositive);
+            default:
+                return "errore";
+        }
     }
-    getDati();
+};
+
+
+
+useEffect(() => {
+  const getDati = async () => {
+    const response = await fetch('https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-regioni.json');
+    const jsResponse = await response.json();
+    setDati(jsResponse);
+  }
+  getDati();
   }, [])
 
 
@@ -37,12 +68,17 @@ function App() {
     <>
       <Header dati={dati} />
       <div className="container margin-top-70">
-        <div className="row">
-          <StartCard dati={dati} name="Casi totali" color="bg-accent" dataTrend="totale_casi" />
-          <StartCard dati={dati} name="Guariti totali" color="bg-success" dataTrend="dimessi_guariti" />
-          <StartCard dati={dati} name="Morti totali" color="bg-danger" dataTrend="deceduti" />
-          <StartCard dati={dati} name="Nuovi casi" color="bg-warning" dataTrend="nuovi_positivi" />
-        </div>
+        <div className="row"> 
+          {(dati.length>0)  
+            ?  dataTrend.map( (x) => {
+                return ( 
+                <StartCard key={x}   color="bg-accent"dati={dati} nome={dataTrend[x]} numero={totalCases(dati, x)}/>  
+                )
+              })  
+                 
+            : <h3>Loading Data...</h3>
+          } 
+          </div>
       </div>
 
       <RegionPositive dati={dati} />
