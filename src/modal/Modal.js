@@ -1,6 +1,7 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
 import "./Modal.css";
+import { Bar } from 'react-chartjs-2';
 
 const Modal = (props) => (
 
@@ -20,7 +21,12 @@ const Modal = (props) => (
           <div className="modal-custom-body">
             <div className="row">
               <div className="col-12">
-               
+                <Bar
+                  data={[]}
+                  width={100}
+                  height={50}
+                  options={{ maintainAspectRatio: true }}
+                />
               </div>
             </div>
           </div>

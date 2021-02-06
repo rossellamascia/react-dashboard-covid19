@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import Modal from "../modal/Modal"
 
+
+
 const StartCard = (props) => {
     const [open, setOpen] = useState(false)
+
     return (
         <>
             <div className="col-12 col-md-3 mb-4">
@@ -13,7 +16,9 @@ const StartCard = (props) => {
                     <p className="text-white ms-3">scopri di più</p>
                 </div>
             </div>
-            <Modal isOpen={open} onClose={()=>setOpen(false) } name={props.name}/>
+            <Modal isOpen={open} onClose={() => setOpen(false)} name={props.name} sortedDati={props.sortedDati} />
+
+
         </>
     )
 }
