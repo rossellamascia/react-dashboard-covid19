@@ -41,9 +41,9 @@ function App() {
       <div className="container margin-top-70">
         <div className="row">
           <StartCard dati={dati.totale_casi} name="Casi totali" color="bg-accent"  />
-          {/* <StartCard dati={dati.dimessi_guariti} name="Guariti totali" color="bg-success"  />
+          <StartCard dati={dati.dimessi_guariti} name="Guariti totali" color="bg-success"  />
           <StartCard dati={dati.deceduti} name="Morti totali" color="bg-danger"  />
-          <StartCard dati={dati.nuovi_positivi} name="Nuovi casi" color="bg-warning"  /> */}
+          <StartCard dati={dati.nuovi_positivi} name="Nuovi casi" color="bg-warning"  />
         </div>
       </div>
 

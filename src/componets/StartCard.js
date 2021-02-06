@@ -13,7 +13,7 @@ const StartCard = (props) => {
                     <p className="text-white ms-3">scopri di più</p>
                 </div>
             </div>
-            <Modal isOpen={open} onClose={()=>setOpen(false) }/>
+            <Modal isOpen={open} onClose={()=>setOpen(false) } name={props.name}/>
         </>
     )
 }

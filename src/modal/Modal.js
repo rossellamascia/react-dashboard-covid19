@@ -11,13 +11,20 @@ const Modal = (props) => (
     onClose={props.onClose}
   >
 
-    <div className="modal-t">
-      <button className="close" onClick={props.onClose}>
-        &times;
-        </button>
-      <div className="header"> Modal Title </div>
-      <div className="content">
-        <h1>funzionaaaaa</h1>
+    <div className="modal-custom" onClick={props.onClose}>
+      <div className="modal-custom-dialog modal-custom-dialog-scrollable modal-custom-dialog-centered">
+        <div className="modal-custom-content">
+          <div className="modal-custom-header">
+            <h3 className="fs-3">{props.name}</h3> <span className="close" onClick={props.onClose}>×</span>
+          </div>
+          <div className="modal-custom-body">
+            <div className="row">
+              <div className="col-12">
+               
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
