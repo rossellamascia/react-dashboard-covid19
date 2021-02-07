@@ -36,7 +36,7 @@ function App() {
     getDati();
   }, [])
   
-console.log(sortedDati.totale_casi.map(el => el[1]));
+// console.log(sortedDati.totale_casi.map(el => el[1]));
 
   return (
     <>
