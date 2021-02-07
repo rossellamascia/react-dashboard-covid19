@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { lastUpdated } from "./utility";
+import { lastUpdated } from "./../utilities/formatter";
 
 
 const RegionPositive = (props) => {
     const [dati , setDati] = useState(props.dati)
-    console.log(dati);
+    // console.log(dati);
     const cardRegion = (dati) => dati.length > 0 ? lastUpdated(dati).forEach(el => setDati(el.nuovi_positivi)) : "cio"
     
   
