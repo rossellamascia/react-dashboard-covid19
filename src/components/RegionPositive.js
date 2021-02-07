@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { lastUpdated } from "./utility";
+import { lastUpdated } from "./../utilities/formatter";
 
 
 const RegionPositive = (props) => {

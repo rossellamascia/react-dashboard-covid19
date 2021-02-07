@@ -1,45 +1,66 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import StartCard from "./componets/StartCard"
-import Header from "./componets/Header";
-import RegionPositive from "./componets/RegionPositive";
-import { totalCases, lastUpdated, formatData, sortedArray,totalsForDays } from "./componets/utility";
+import StartCard from "./components/StartCard"
+import Header from "./components/Header";
+import RegionPositive from "./components/RegionPositive";
+import { getSortedData as getSortedDataContagi } from './services/contagi';
+import { 
+  toPresentationData as toPresentationDataContagi, 
+  toSplitRegionsData as toSplitRegionsDataContagi 
+} from './transformations/contagi';
+import { totalCases, lastUpdated, formatData, totalsForDays } from "./utilities/formatter";
 
 
 function App() {
+  const [hasErrors, setHasErrors] = useState(false);
   const [dati, setDati] = useState({});
   const [data, setData] = useState("");
   const [sortedDati, setSortedDati] = useState([])
 
   useEffect(() => {
-    const getDati = async () => {
-      const response = await fetch('https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-regioni.json');
-      const jsResponse = await response.json();
-      const lastRegion = lastUpdated([...jsResponse])
-      const sorted = sortedArray([...jsResponse])
-      const total = {
-        totale_casi: totalsForDays(sorted, "totale_casi"),
-        dimessi_guariti: totalsForDays(sorted, "dimessi_guariti"),
-        deceduti: totalsForDays(sorted, "deceduti"),
-        nuovi_positivi: totalsForDays(sorted, "nuovi_positivi")
-      }
-      const datiOk = {
-        totale_casi: totalCases(lastRegion, "totale_casi"),
-        dimessi_guariti: totalCases(lastRegion, "dimessi_guariti"),
-        deceduti: totalCases(lastRegion, "deceduti"),
-        nuovi_positivi: totalCases(lastRegion, "nuovi_positivi")
-      }
-      setSortedDati(total)
-      setData(formatData(lastRegion.pop().data))
-      setDati(datiOk);
-    }
-    getDati();
+    getSortedDataContagi()
+      .then(data => {
+        setHasErrors(false);
+        const sorted = [...data];
+
+        // transform global data for presentation
+        const globalData = toPresentationDataContagi(sorted);
+        console.debug(globalData);
+
+        // split data by region and trasform it for presentation
+        const regionsData = toSplitRegionsDataContagi(sorted);
+        console.debug(regionsData);
+
+        const lastRegion = lastUpdated(sorted);
+        const total = {
+          totale_casi: totalsForDays(sorted, "totale_casi"),
+          dimessi_guariti: totalsForDays(sorted, "dimessi_guariti"),
+          deceduti: totalsForDays(sorted, "deceduti"),
+          nuovi_positivi: totalsForDays(sorted, "nuovi_positivi")
+        }
+        const datiOk = {
+          totale_casi: totalCases(lastRegion, "totale_casi"),
+          dimessi_guariti: totalCases(lastRegion, "dimessi_guariti"),
+          deceduti: totalCases(lastRegion, "deceduti"),
+          nuovi_positivi: totalCases(lastRegion, "nuovi_positivi")
+        }
+        setSortedDati(total)
+        setData(formatData(lastRegion.pop().data))
+        setDati(datiOk);
+      })
+      .catch(error => {
+        console.error(error);
+        setHasErrors(true);
+      });
   }, [])
   
 // console.log(sortedDati.totale_casi.map(el => el[1]));
 
   return (
     <>
+      {hasErrors && (
+        <div>Si sono verificati degli errori! Ricaricare la pagina.</div>
+      )}
       <Header data={data} />
       <div className="container margin-top-70">
         <div className="row">
